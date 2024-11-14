@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  signin(signin: any) {
+    const { email, password } = signin;
+    const foundEmail = this.usersRepository.findEmail(email);
+    if (!foundEmail || foundEmail.password !== password) {
+      return 'Email o password incorrectos';
+    }
+    return foundEmail;
   }
 }
