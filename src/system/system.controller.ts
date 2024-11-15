@@ -1,4 +1,4 @@
-import { Controller, Get, Delete } from '@nestjs/common';
+import { Controller, Get, Delete, Post } from '@nestjs/common';
 import { SystemService } from './system.service';
 import { Request } from 'express';
 import { Req } from '@nestjs/common';
@@ -86,5 +86,10 @@ export class SystemController {
   @Get('endpoints')
   getAllEndpoints() {
     return this.systemService.listAllEndpoints();
+  }
+
+  @Post('runMigrations')
+  async runMigrations() {
+    return this.systemService.runMigrations();
   }
 }

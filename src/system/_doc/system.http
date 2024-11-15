@@ -24,5 +24,8 @@ Authorization: 1234
 ### cookies
 GET http://localhost:3000/system/cookies
 
-### dropSchema
+### resetDatabase
 DELETE http://localhost:3000/system/resetDatabase
+
+### runMigrations
+POST http://localhost:3000/system/runMigrations

@@ -4,6 +4,7 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
 import { HttpAdapterHost } from '@nestjs/core';
+import { conectionSource } from 'src/config/typeorm';
 
 @Injectable()
 export class SystemService {
@@ -49,7 +50,8 @@ export class SystemService {
     console.log('Database schema dropped successfully');
 
     // Sincronizar el esquema (o ejecutar migraciones)
-    await this.dataSource.synchronize(); // Usar `runMigrations()` si tienes migraciones
+    await this.dataSource.synchronize();
+    await this.dataSource.runMigrations(); // Usar si tienes migraciones
     console.log('Database schema synchronized successfully');
   }
 
@@ -141,5 +143,20 @@ export class SystemService {
     });
 
     return sortedEndpoints;
+  }
+
+  async runMigrations() {
+    const dataSource = await conectionSource.initialize();
+    try {
+      const result = await dataSource.runMigrations();
+      return {
+        message: 'Migraciones ejecutadas con éxito',
+        details: result,
+      };
+    } catch (error) {
+      throw new Error(`Error ejecutando migraciones: ${error.message}`);
+    } finally {
+      await dataSource.destroy();
+    }
   }
 }

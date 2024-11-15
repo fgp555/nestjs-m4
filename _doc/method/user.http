@@ -18,10 +18,10 @@ Authorization: Basic: <email>:<password>.
 GET http://localhost:3000/users
 
 ### Obtener un usuario por ID
-GET http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff0001
+GET http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
 
 ### Actualizar un usuario por ID
-PATCH http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff0001
+PATCH http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
 Content-Type: application/json
 Authorization: Basic: <email>:<password>.
 
@@ -36,11 +36,6 @@ Authorization: Basic: <email>:<password>.
 }
 
 ### Eliminar un usuario por ID
-DELETE http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff0001
-Content-Type: application/json
-Authorization: Basic: <email>:<password>.
-
-### dropSchema
-DELETE http://localhost:3000/users/resetDatabase
+DELETE http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
 Content-Type: application/json
 Authorization: Basic: <email>:<password>.

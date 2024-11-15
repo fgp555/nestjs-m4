@@ -27,6 +27,8 @@ const typeOrmConfig = {
 };
 
 export default registerAs('typeorm', () => typeOrmConfig);
+
+// para ejecutar las migraciones
 export const conectionSource = new DataSource(
   typeOrmConfig as DataSourceOptions,
 );

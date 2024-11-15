@@ -96,7 +96,6 @@ export class OrderService {
     if (!order) {
       throw new NotFoundException('Order not found');
     }
-    console.log('order', order);
     // Verificar la existencia del usuario si es necesario actualizarlo
     if (updateOrderDto.userId) {
       const foundUser = await this.userRepository.findOneBy({
