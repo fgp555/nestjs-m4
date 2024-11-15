@@ -106,6 +106,15 @@ export class ProductService {
     }
   }
 
+  async updateImage(productId: string, secure_url: string) {
+    // const { secure_url, public_id } = cloudinaryResult;
+    const findProduct = await this.findOne(productId);
+
+    findProduct.imgUrl = secure_url;
+
+    return await this.productRepository.save(findProduct);
+  }
+
   async remove(id: string) {
     await this.findOne(id);
 

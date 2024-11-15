@@ -1,10 +1,10 @@
 // back/src/config/typeorm.ts
 
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { config as dotevn } from 'dotenv';
+import { config as dotenv } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 
-dotevn({ path: '.env.postgres' });
+dotenv({ path: '.env.prod' });
 
 console.info('dropSchema: ', process.env.DROPSCHEMA);
 console.info('DB_TYPE: ', process.env.DB_TYPE);

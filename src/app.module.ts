@@ -11,6 +11,7 @@ import { OrderModule } from './module/order/order.module';
 import { SystemModule } from './system/system.module';
 import typeOrmConfig from './config/typeorm';
 import { SeederModule } from './seed/seeder.module';
+import { FileModule } from './module/file/file.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SeederModule } from './seed/seeder.module';
     OrderModule,
     SystemModule,
     SeederModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

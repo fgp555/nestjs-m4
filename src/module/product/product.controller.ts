@@ -8,8 +8,6 @@ import {
   Delete,
   UseGuards,
   ParseUUIDPipe,
-  UsePipes,
-  ValidationPipe,
   Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -39,8 +37,6 @@ export class ProductController {
     @Query('limit') limit: number = 5,
     //
   ) {
-    console.log('', page, limit);
-
     return this.productService.findAll(page, limit);
   }
 
