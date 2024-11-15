@@ -18,7 +18,7 @@ const typeOrmConfig = {
   password: process.env.DB_PASSWORD || 'admin',
   database: process.env.DB_DATABASE || 'postgres',
   dropSchema: process.env.DROPSCHEMA === 'true',
-  // synchronize: process.env.DROPSCHEMA === 'true',
+  synchronize: process.env.DROPSCHEMA === 'true',
   autoloadEntities: true,
   //logging: true,
   logging: ['error'],

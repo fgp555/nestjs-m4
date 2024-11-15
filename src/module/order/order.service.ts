@@ -11,7 +11,6 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../user/entities/user.entity';
 import { ProductEntity } from '../product/entities/product.entity';
 import { OrderDetailEntity } from '../order-detail/entities/order-detail.entity';
-import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -29,105 +28,132 @@ export class OrderService {
     private readonly orderDetailRepository: Repository<OrderDetailEntity>,
   ) {}
 
-  async create(createOrderDto: any) {
+  async create(createOrderDto: CreateOrderDto) {
+    // Verificar si el usuario existe
     const foundUser = await this.userRepository.findOneBy({
       id: createOrderDto.userId,
     });
 
-    if (!foundUser) throw new NotFoundException('User not found');
+    if (!foundUser) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
 
     let totalPrice = 0;
-    let productArray = [];
+    const productArray = [];
 
     for (const element of createOrderDto.products) {
-      // ========== Find Product ==========
+      // Buscar el producto
       const findProduct = await this.productRepository.findOneBy({
         id: element.id,
       });
 
-      if (!findProduct)
-        throw new NotFoundException(`Product ${element.id} not found`);
+      if (!findProduct) {
+        throw new NotFoundException(
+          `Producto con ID ${element.id} no encontrado`,
+        );
+      }
 
-      // ========== Update Stock ==========
-      if (findProduct.stock < 1)
-        throw new BadRequestException('Product out of stock');
+      // Verificar el stock
+      if (findProduct.stock < 1) {
+        throw new BadRequestException(
+          `Producto con ID ${element.id} sin stock`,
+        );
+      }
 
+      // Actualizar el stock
       findProduct.stock -= 1;
       await this.productRepository.save(findProduct);
 
-      // ========== Total Price ==========
+      // Calcular el precio total
       totalPrice += Number(findProduct.price);
 
-      // ========== productArray ==========
       productArray.push(findProduct);
     }
-    // ========== Create Order Detail ==========
-    const saveOrderDetail = this.orderDetailRepository.create({
-      totalPrice,
-      // products: productArray,
-      products: createOrderDto.products,
-    });
 
-    // ========== Create Order ==========
-    const saveOrder = await this.orderRepository.save({
+    // Crear y guardar el detalle de la orden
+    const orderDetail = this.orderDetailRepository.create({
+      totalPrice,
+      products: productArray,
+    });
+    const savedOrderDetail = await this.orderDetailRepository.save(orderDetail);
+
+    // Crear y guardar la orden
+    const order = this.orderRepository.create({
       user: foundUser,
-      orderDetails: saveOrderDetail,
+      orderDetails: savedOrderDetail,
       id: createOrderDto.id,
     });
 
-    return saveOrder;
+    return await this.orderRepository.save(order);
   }
 
   async findAll() {
-    return this.orderRepository.find();
+    try {
+      return await this.orderRepository.find({
+        relations: ['user', 'orderDetails', 'orderDetails.products'],
+      });
+    } catch (error) {
+      throw new BadRequestException('Error al obtener las órdenes');
+    }
   }
 
   async findOne(id: string) {
-    return this.orderRepository.findOneBy({ id });
-  }
-
-  async update(id: string, updateOrderDto: any) {
-    // Buscar la orden existente
     const order = await this.orderRepository.findOne({
       where: { id },
-      relations: ['orderDetails', 'orderDetails.products'],
+      relations: ['user', 'orderDetails', 'orderDetails.products'],
     });
 
     if (!order) {
-      throw new NotFoundException('Order not found');
+      throw new NotFoundException(`Orden con ID "${id}" no encontrada`);
     }
-    // Verificar la existencia del usuario si es necesario actualizarlo
+
+    return order;
+  }
+
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const order = await this.findOne(id);
+
+    // Actualizar el usuario si es necesario
     if (updateOrderDto.userId) {
       const foundUser = await this.userRepository.findOneBy({
         id: updateOrderDto.userId,
       });
-      if (!foundUser) throw new NotFoundException('User not found');
+
+      if (!foundUser) {
+        throw new NotFoundException('Usuario no encontrado');
+      }
+
       order.user = foundUser;
     }
 
-    // Procesar los productos de la orden
-    let totalPrice = 0;
+    // Procesar productos si se proporcionan
     if (updateOrderDto.products) {
-      // Resetear el stock de los productos actuales
+      let totalPrice = 0;
+      const productArray = [];
+
+      // Restablecer el stock de los productos actuales
       for (const existingProduct of order.orderDetails.products) {
         existingProduct.stock += 1;
         await this.productRepository.save(existingProduct);
       }
 
-      // Actualizar el array de productos y calcular el precio total
-      const productArray = [];
+      // Verificar y actualizar nuevos productos
       for (const element of updateOrderDto.products) {
         const product = await this.productRepository.findOneBy({
           id: element.id,
         });
 
-        if (!product)
-          throw new NotFoundException(`Product ${element.id} not found`);
-
-        if (product.stock < 1)
-          throw new BadRequestException(
-            `Product ${element.id} is out of stock`,
+        if (!product) {
+          throw new NotFoundException(
+            `Producto con ID ${element.id} no encontrado`,
           );
+        }
+
+        if (product.stock < 1) {
+          throw new BadRequestException(
+            `Producto con ID ${element.id} sin stock`,
+          );
+        }
 
         product.stock -= 1;
         await this.productRepository.save(product);
@@ -142,17 +168,17 @@ export class OrderService {
         totalPrice,
         products: productArray,
       });
-      await this.orderDetailRepository.save(updatedOrderDetail);
-      order.orderDetails = updatedOrderDetail;
+
+      order.orderDetails =
+        await this.orderDetailRepository.save(updatedOrderDetail);
     }
 
     // Guardar la orden actualizada
-    const updatedOrder = await this.orderRepository.save(order);
-
-    return updatedOrder;
+    return await this.orderRepository.save(order);
   }
 
   async remove(id: string) {
+    await this.findOne(id);
     return this.orderRepository.delete(id);
   }
 }

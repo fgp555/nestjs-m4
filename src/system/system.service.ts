@@ -51,7 +51,7 @@ export class SystemService {
 
     // Sincronizar el esquema (o ejecutar migraciones)
     await this.dataSource.synchronize();
-    await this.dataSource.runMigrations(); // Usar si tienes migraciones
+    // await this.dataSource.runMigrations(); // Usar si tienes migraciones
     console.log('Database schema synchronized successfully');
   }
 

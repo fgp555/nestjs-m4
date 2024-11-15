@@ -1,10 +1,11 @@
-### Crear un nuevo usuario
+### 
 POST http://localhost:3000/order
 Content-Type: application/json
+Authorization: Basic: <email>:<password>.
 
 {
   "id": "eeeeeeee-0000-0000-0000-eeeeeeee1001",
-  "userId": "ffffffff-0000-0000-0000-ffffffff1101",
+  "userId": "ffffffff-0000-0000-0000-ffffffff0001",
   "products": [
     {
       "id": "bbbbbbbb-0000-0000-0000-bbbbbbbb0001"
@@ -15,19 +16,20 @@ Content-Type: application/json
   ]
 }
 
-### Obtener todos los usuarios
+### 
 GET http://localhost:3000/order
 
-### Obtener un usuario por ID
+### 
 GET http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
 
-### Actualizar un usuario por ID
+### 
 PATCH http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
 Content-Type: application/json
+Authorization: Basic: <email>:<password>.
 
 {
   "id": "eeeeeeee-0000-0000-0000-eeeeeeee1001",
-  "userId": "ffffffff-0000-0000-0000-ffffffff1101",
+  "userId": "ffffffff-0000-0000-0000-ffffffff0001",
   "products": [
     {
       "id": "bbbbbbbb-0000-0000-0000-bbbbbbbb0005"
@@ -38,5 +40,7 @@ Content-Type: application/json
   ]
 }
 
-### Eliminar un usuario por ID
+### 
 DELETE http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
+Content-Type: application/json
+Authorization: Basic: <email>:<password>.

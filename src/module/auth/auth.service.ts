@@ -1,27 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { UserEntity } from '../user/entities/user.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { SigninAuthDto } from './dto/signin-auth.dto';
+import { SigUpAuthDto } from './dto/signup-auth.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
-  async signin(signin: any) {
-    const { email, password } = signin;
-    const foundEmail = await this.userRepository
-      .createQueryBuilder('user')
-      .addSelect('user.password')
-      .where('user.email = :email', { email })
-      .getOne();
+  async signup(signup: SigUpAuthDto) {
+    return this.userService.create(signup);
+  }
 
-    if (!foundEmail || foundEmail.password !== password) {
-      return 'Email o password incorrectos';
+  async signin(signin: SigninAuthDto) {
+    const foundEmail = await this.userService.findByEmail(signin);
+    if (!foundEmail || foundEmail.password !== signin.password) {
+      throw new UnauthorizedException('Email o contraseña incorrectos');
     }
     return foundEmail;
   }

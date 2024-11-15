@@ -8,7 +8,6 @@ import { CategoryModule } from './module/category/category.module';
 import { ProductModule } from './module/product/product.module';
 import { UserModule } from './module/user/user.module';
 import { OrderModule } from './module/order/order.module';
-import { OrderDetailModule } from './module/order-detail/order-detail.module';
 import { SystemModule } from './system/system.module';
 import typeOrmConfig from './config/typeorm';
 import { SeederModule } from './seed/seeder.module';
@@ -30,9 +29,8 @@ import { SeederModule } from './seed/seeder.module';
     ProductModule,
     UserModule,
     OrderModule,
-    OrderDetailModule,
     SystemModule,
-    // SeederModule,
+    SeederModule,
   ],
   controllers: [AppController],
   providers: [AppService],

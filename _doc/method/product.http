@@ -9,7 +9,7 @@ Content-Type: application/json
 Authorization: Basic: <email>:<password>.
 
 {
-  "id": "bbbbbbbb-0000-0000-0000-bbbbbbbb0001",
+  "id": "bbbbbbbb-0000-0000-0000-bbbbbbbb1001",
   "name": "product 1",
   "description": "product 1 description",
   "stock": 10,
@@ -18,13 +18,16 @@ Authorization: Basic: <email>:<password>.
   "imgUrl": "https://picsum.photos/200/300"
 }
 
-### Obtener todos los usuarios
+### product
 GET http://localhost:3000/product
 
-### Obtener un usuario por ID
+### product
+GET http://localhost:3000/product?page=1&limit=20
+
+### 
 GET http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 
-### Actualizar un usuario por ID
+### PATCH
 PATCH http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 Content-Type: application/json
 Authorization: Basic: <email>:<password>.
@@ -38,7 +41,7 @@ Authorization: Basic: <email>:<password>.
   "imgUrl": "https://picsum.photos/200/300"
 }
 
-### Eliminar un usuario por ID
+### Eliminar 
 DELETE http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 Content-Type: application/json
 Authorization: Basic: <email>:<password>.

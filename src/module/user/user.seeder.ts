@@ -7,7 +7,7 @@ const userDemo = {
   id: 'ffffffff-0000-0000-0000-ffffffff0001',
   name: 'User Demo',
   email: 'user_demo@mail.com',
-  password: 'PassWord123',
+  password: 'PassWord@123',
   phone: 123456789,
   country: 'Perú',
   address: 'HCM',

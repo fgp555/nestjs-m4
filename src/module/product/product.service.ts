@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,72 +23,142 @@ export class ProductService {
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const foundCategory = await this.categoryRepository.findOneBy({
-      name: createProductDto.category,
-    });
+    try {
+      const foundCategory = await this.categoryRepository.findOneBy({
+        name: createProductDto.category,
+      });
 
-    return this.productRepository.save({
-      ...createProductDto,
-      category: foundCategory,
-    });
+      if (!foundCategory) {
+        throw new NotFoundException(
+          `Categoría "${createProductDto.category}" no encontrada`,
+        );
+      }
+
+      const product = this.productRepository.create({
+        ...createProductDto,
+        category: foundCategory,
+      });
+
+      return await this.productRepository.save(product);
+    } catch (error) {
+      throw new BadRequestException('Error al crear el producto');
+    }
   }
 
-  async findAll() {
-    return this.productRepository.find();
+  async findAll(page: number, limit: number) {
+    if (page < 1 || limit < 1) {
+      throw new BadRequestException(
+        'Los parámetros de paginación deben ser mayores a 0',
+      );
+    }
+
+    const skip = (page - 1) * limit;
+
+    try {
+      return await this.productRepository.find({
+        skip: skip,
+        take: limit,
+        order: { id: 'ASC' },
+      });
+    } catch (error) {
+      throw new BadRequestException('Error al obtener los productos');
+    }
   }
 
   async findOne(id: string) {
-    return await this.productRepository.findOneBy({ id });
+    try {
+      const product = await this.productRepository.findOneBy({ id });
+
+      if (!product) {
+        throw new NotFoundException(`Producto con ID "${id}" no encontrado`);
+      }
+
+      return product;
+    } catch (error) {
+      throw new BadRequestException(
+        'Error al intentar obtener el producto por ID',
+      );
+    }
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
+    const product = await this.findOne(id);
+
     const foundCategory = await this.categoryRepository.findOneBy({
       name: updateProductDto.category,
     });
 
-    const findProduct = await this.findOne(id);
-    if (!findProduct) throw new NotFoundException('Product not found');
+    if (!foundCategory) {
+      throw new NotFoundException(
+        `Categoría "${updateProductDto.category}" no encontrada`,
+      );
+    }
 
-    return this.productRepository.save({
-      ...updateProductDto,
-      id,
-      category: foundCategory,
-    });
+    try {
+      const updatedProduct = this.productRepository.merge(product, {
+        ...updateProductDto,
+        category: foundCategory,
+      });
+
+      return await this.productRepository.save(updatedProduct);
+    } catch (error) {
+      throw new BadRequestException('Error al actualizar el producto');
+    }
   }
 
   async remove(id: string) {
-    return this.productRepository.delete(id);
+    await this.findOne(id);
+
+    try {
+      const result = await this.productRepository.delete(id);
+
+      if (result.affected === 0) {
+        throw new NotFoundException(`Producto con ID "${id}" no encontrado`);
+      }
+
+      return result;
+    } catch (error) {
+      throw new BadRequestException('Error al eliminar el producto');
+    }
   }
 
   async removeAll() {
-    return this.productRepository.delete({});
+    try {
+      return await this.productRepository.delete({});
+    } catch (error) {
+      throw new BadRequestException('Error al eliminar todos los productos');
+    }
   }
 
   async seedProduct() {
-    const existProduct = await this.productRepository.find();
-    if (existProduct.length > 0) return console.log('product already exist');
-
-    for (const element of productSeed) {
-      const foundCategory = await this.categoryRepository.findOneBy({
-        name: element.category,
-      });
-
-      const saveProduct = await this.productRepository.save({
-        ...element,
-        category: foundCategory,
-      });
+    const existingProducts = await this.productRepository.find();
+    if (existingProducts.length > 0) {
+      throw new ConflictException('Los productos ya han sido cargados');
     }
 
-    const [firstProduct] = await this.productRepository.find({ take: 1 });
+    try {
+      for (const element of productSeed) {
+        const foundCategory = await this.categoryRepository.findOneBy({
+          name: element.category,
+        });
 
-    console.log('firstProduct', firstProduct);
+        if (!foundCategory) {
+          throw new NotFoundException(
+            `Categoría "${element.category}" no encontrada para el producto "${element.name}"`,
+          );
+        }
 
-    const lastProduct = await this.productRepository.find({
-      order: { id: 'DESC' },
-      relations: ['orderDetails', 'category'],
-      take: 1,
-    });
+        await this.productRepository.save({
+          ...element,
+          category: foundCategory,
+        });
+      }
 
-    // console.log('lastProduct', lastProduct);
+      console.log('Productos cargados exitosamente');
+    } catch (error) {
+      throw new BadRequestException(
+        'Error al realizar el seeding de productos',
+      );
+    }
   }
 }
