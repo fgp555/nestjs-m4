@@ -1,0 +1,28 @@
+### seeder
+POST http://localhost:3000/category/seeder 
+
+### Crear un nuevo usuario
+POST http://localhost:3000/category
+Content-Type: application/json
+
+{
+  "id": "aaaaaaaa-0000-0000-0000-aaaaaaaa1001",
+  "name": "smartphone"
+}
+
+### Obtener todos los usuarios
+GET http://localhost:3000/category
+
+### Obtener un usuario por ID
+GET http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001
+
+### Actualizar un usuario por ID
+PATCH http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001
+Content-Type: application/json
+
+{
+  "name": "smartphoneUpdate"
+}
+
+### Eliminar un usuario por ID
+DELETE http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001

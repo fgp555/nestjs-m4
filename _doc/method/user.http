@@ -1,0 +1,41 @@
+### Crear un nuevo usuario
+POST http://localhost:3000/users
+Content-Type: application/json
+Authorization: Basic: <email>:<password>.
+
+{
+  "id": "ffffffff-0000-0000-0000-ffffffff1101",
+  "name": "user",
+  "email": "user@mail.com",
+  "password": "password123",
+  "phone": 321654,
+  "country": "country",
+  "address": "address 123",
+  "city": "city"
+}
+
+### Obtener todos los usuarios
+GET http://localhost:3000/users
+
+### Obtener un usuario por ID
+GET http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
+
+### Actualizar un usuario por ID
+PATCH http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
+Content-Type: application/json
+Authorization: Basic: <email>:<password>.
+
+{
+  "name": "userUpdate",
+  "email": "userUpdate@mail.com",
+  "password": "password123",
+  "phone": 321654,
+  "country": "country",
+  "address": "address 123",
+  "city": "city"
+}
+
+### Eliminar un usuario por ID
+DELETE http://localhost:3000/users/ffffffff-0000-0000-0000-ffffffff1101
+Content-Type: application/json
+Authorization: Basic: <email>:<password>.
