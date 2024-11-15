@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "totalAmount": 59.99,
+    "date": "2022-01-01T00:00:00.000Z",
+    "user": {
+      "id": 1,
+      "name": "admin",
+      "email": "admin@localhost"
+    },
+    "orderDetail": {
+      "id": 1,
+      "products": [
+        {
+          "id": 1,
+          "name": "Logitech G Pro",
+          "description": "The best keyboard in the world",
+          "price": 59.99,
+          "stock": 12,
+          "category": "keyboard"
+        }
+      ]
+    }
+  }
+]

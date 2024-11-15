@@ -2,14 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersRepository } from '../users/users.repository';
+import { UserEntity } from '../user/entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
-  signin(signin: any) {
+  async signin(signin: any) {
     const { email, password } = signin;
-    const foundEmail = this.usersRepository.findEmail(email);
+    const foundEmail = await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email })
+      .getOne();
+
     if (!foundEmail || foundEmail.password !== password) {
       return 'Email o password incorrectos';
     }
