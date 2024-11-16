@@ -1,17 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthService } from 'src/module/auth/auth.service';
 import { CategorySeed } from 'src/module/category/category.seed';
 import { CategoryEntity } from 'src/module/category/entities/category.entity';
 import { ProductEntity } from 'src/module/product/entities/product.entity';
 import { ProductSeed } from 'src/module/product/product.seed';
 import { UserEntity } from 'src/module/user/entities/user.entity';
 import { UserSeeder } from 'src/module/user/user.seeder';
+import { UserService } from 'src/module/user/user.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CategoryEntity, ProductEntity, UserEntity]),
   ],
-  providers: [CategorySeed, ProductSeed, UserSeeder],
+  providers: [CategorySeed, ProductSeed, UserSeeder, AuthService, UserService],
 })
 export class SeederModule {
   constructor(

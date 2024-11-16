@@ -6,6 +6,8 @@ import {
   Matches,
   MaxLength,
   MinLength,
+  ValidateIf,
+  ValidationArguments,
 } from 'class-validator';
 
 export class SigUpAuthDto {
@@ -32,13 +34,20 @@ export class SigUpAuthDto {
   })
   password: string;
 
+  @IsString()
+  @IsNotEmpty({ message: 'La confirmación de la contraseña es requerida' })
+  @ValidateIf((dto: SigUpAuthDto) => dto.password === dto.confirmPassword, {
+    message: 'Las contraseñas no coinciden',
+  })
+  confirmPassword: string;
+
   @IsNumber({}, { message: 'El número de teléfono debe ser un número' })
   @IsNotEmpty({ message: 'El número de teléfono es requerido' })
   phone: number;
 
   @IsString()
   @IsNotEmpty({ message: 'El país es requerido' })
-  @MinLength(4, { message: 'El país debe tener al menos 4 caracteres' }) // Corregido
+  @MinLength(4, { message: 'El país debe tener al menos 4 caracteres' })
   @MaxLength(20, { message: 'El país no debe superar los 20 caracteres' })
   country: string;
 
@@ -50,7 +59,7 @@ export class SigUpAuthDto {
 
   @IsString()
   @IsNotEmpty({ message: 'La ciudad es requerida' })
-  @MinLength(4, { message: 'La ciudad debe tener al menos 4 caracteres' }) // Corregido
+  @MinLength(4, { message: 'La ciudad debe tener al menos 4 caracteres' })
   @MaxLength(20, { message: 'La ciudad no debe superar los 20 caracteres' })
   city: string;
 }

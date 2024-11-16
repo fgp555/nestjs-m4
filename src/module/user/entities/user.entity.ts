@@ -12,7 +12,7 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 50, unique: true, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: false, select: false })
+  @Column({ type: 'varchar', length: 60, nullable: false, select: false })
   password: string;
 
   @Column({ type: 'int', nullable: true })

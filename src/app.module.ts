@@ -12,6 +12,7 @@ import { SystemModule } from './system/system.module';
 import typeOrmConfig from './config/typeorm';
 import { SeederModule } from './seed/seeder.module';
 import { FileModule } from './module/file/file.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -24,7 +25,11 @@ import { FileModule } from './module/file/file.module';
       useFactory: (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
-
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: '10d' },
+      secret: process.env.JWT_SECRET,
+    }),
     AuthModule,
     CategoryModule,
     ProductModule,

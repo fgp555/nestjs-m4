@@ -25,19 +25,18 @@ npm i class-validator class-transformer
 # ========== hw7 cloudinary ==========
 npm i -D @types/multer
 npm i cloudinary buffer-to-stream
-https://console.cloudinary.com/console/c-2e2dbe077bd7c496e46e39c51060de/media_library/search?q=&view_mode=mosaic
+# https://console.cloudinary.com/console/c-2e2dbe077bd7c496e46e39c51060de/media_library/search?q=&view_mode=mosaic
 
 
-# ==========  ==========
-# ==========  ==========
-# ==========  ==========
-# ==========  ==========
-# L8
-npm install bcrypt
-npm install @nestjs/swagger
-npm install --save @nestjs/jwt
+# ========== 8 Auth 1 ==========
+npm install bcrypt @nestjs/jwt
+# https://bcrypt.online/
+# https://jwt.io/
 
-https://jwt.io/
+# ==========  ==========
+# ==========  ==========
+# ==========  ==========
+
 
 
 #L9
@@ -59,6 +58,6 @@ http://localhost:3000/logout
 # "test:e2ewatch": "jest --config ./test/jest-e2e.json --watch",
 
 #11
-npm install --save @nestjs/swagger
+npm install @nestjs/swagger
 
 ```

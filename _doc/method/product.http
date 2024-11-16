@@ -1,12 +1,14 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZmZmZmZmZi0wMDAwLTAwMDAtMDAwMC1mZmZmZmZmZjAwMDEiLCJpZCI6ImZmZmZmZmZmLTAwMDAtMDAwMC0wMDAwLWZmZmZmZmZmMDAwMSIsImVtYWlsIjoidXNlcl9kZW1vQG1haWwuY29tIiwiaWF0IjoxNzMxNzI3MzUwLCJleHAiOjE3MzI1OTEzNTB9.K8cVZUAOggSG0cyjE4GnbQ3p7PaxBrSs-ksosjUp6N8
+
 ### seeder
 POST http://localhost:3000/product/seeder
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 ### Crear 
 POST http://localhost:3000/product
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "id": "bbbbbbbb-0000-0000-0000-bbbbbbbb1001",
@@ -30,7 +32,7 @@ GET http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 ### PATCH
 PATCH http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "name": "Update product 1",
@@ -44,9 +46,9 @@ Authorization: Basic: <email>:<password>.
 ### Eliminar 
 DELETE http://localhost:3000/product/bbbbbbbb-0000-0000-0000-bbbbbbbb0001
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 ### all
 DELETE http://localhost:3000/product/all
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}

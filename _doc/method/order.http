@@ -1,7 +1,10 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZmZmZmZmZi0wMDAwLTAwMDAtMDAwMC1mZmZmZmZmZjAwMDEiLCJpZCI6ImZmZmZmZmZmLTAwMDAtMDAwMC0wMDAwLWZmZmZmZmZmMDAwMSIsImVtYWlsIjoidXNlcl9kZW1vQG1haWwuY29tIiwiaWF0IjoxNzMxNzI3MzUwLCJleHAiOjE3MzI1OTEzNTB9.K8cVZUAOggSG0cyjE4GnbQ3p7PaxBrSs-ksosjUp6N8
+
+
 ### 
 POST http://localhost:3000/order
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "id": "eeeeeeee-0000-0000-0000-eeeeeeee1001",
@@ -21,11 +24,12 @@ GET http://localhost:3000/order
 
 ### 
 GET http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
+Authorization: {{token}}
 
 ### 
 PATCH http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "id": "eeeeeeee-0000-0000-0000-eeeeeeee1001",
@@ -43,4 +47,4 @@ Authorization: Basic: <email>:<password>.
 ### 
 DELETE http://localhost:3000/order/eeeeeeee-0000-0000-0000-eeeeeeee1001
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}

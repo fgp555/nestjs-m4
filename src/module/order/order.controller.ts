@@ -30,6 +30,7 @@ export class OrderController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.orderService.findOne(id);
   }

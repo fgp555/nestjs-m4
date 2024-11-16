@@ -69,25 +69,11 @@ export class UserService {
   }
 
   async findByEmail(signin: SigninAuthDto): Promise<UserEntity | null> {
-    const { email } = signin;
-
-    try {
-      const user = await this.userRepository
-        .createQueryBuilder('user')
-        .addSelect('user.password')
-        .where('user.email = :email', { email })
-        .getOne();
-
-      if (!user) {
-        throw new NotFoundException(`Usuario con email ${email} no encontrado`);
-      }
-
-      return user;
-    } catch (error) {
-      throw new BadRequestException(
-        'Error al intentar buscar el usuario por email',
-      );
-    }
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :email', { email: signin.email })
+      .getOne();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {

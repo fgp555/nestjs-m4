@@ -19,6 +19,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 5,
@@ -28,6 +29,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<UserEntity> {
     return this.userService.findOne(id);
   }

@@ -1,12 +1,15 @@
+@token=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZmZmZmZmZi0wMDAwLTAwMDAtMDAwMC1mZmZmZmZmZjAwMDEiLCJpZCI6ImZmZmZmZmZmLTAwMDAtMDAwMC0wMDAwLWZmZmZmZmZmMDAwMSIsImVtYWlsIjoidXNlcl9kZW1vQG1haWwuY29tIiwiaWF0IjoxNzMxNzI3MzUwLCJleHAiOjE3MzI1OTEzNTB9.K8cVZUAOggSG0cyjE4GnbQ3p7PaxBrSs-ksosjUp6N8
+
+
 ### 
 POST http://localhost:3000/category/seeder 
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 ### 
 POST http://localhost:3000/category
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "id": "aaaaaaaa-0000-0000-0000-aaaaaaaa1001",
@@ -22,7 +25,7 @@ GET http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001
 ### 
 PATCH http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001
 Content-Type: application/json
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}
 
 {
   "name": "smartphoneUpdate"
@@ -30,4 +33,4 @@ Authorization: Basic: <email>:<password>.
 
 ### 
 DELETE http://localhost:3000/category/aaaaaaaa-0000-0000-0000-aaaaaaaa0001
-Authorization: Basic: <email>:<password>.
+Authorization: {{token}}

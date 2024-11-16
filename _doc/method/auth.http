@@ -7,6 +7,7 @@ Content-Type: application/json
   "name": "user",
   "email": "user@mail.com",
   "password": "PassWord@123",
+  "confirmPassword": "PassWord@123",
   "phone": 321654,
   "country": "Perú",
   "address": "Calle Falsa 123",
