@@ -1,3 +1,7 @@
+@token_admin=Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZmZmZmZmZi0wMDAwLTAwMDAtMDAwMC1mZmZmZmZmZjAwMDEiLCJpZCI6ImZmZmZmZmZmLTAwMDAtMDAwMC0wMDAwLWZmZmZmZmZmMDAwMSIsImVtYWlsIjoiYWRtaW5AbWFpbC5jb20iLCJyb2xlcyI6WyJhZG1pbiJdLCJpYXQiOjE3MzE5NjYyOTMsImV4cCI6MTczMjgzMDI5M30.FV-bxvlf7NtoYwcUnGDuifFONS2JPl6-GkQN2_Izk-I
+###
+@token_user=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZTBmMmM2NS0yZmQwLTQ3MDYtYjNkNS02ODQyMzMyYzQwZWYiLCJpZCI6IjdlMGYyYzY1LTJmZDAtNDcwNi1iM2Q1LTY4NDIzMzJjNDBlZiIsImVtYWlsIjoidXNlckBtYWlsLmNvbSIsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzMxOTY2MzI4LCJleHAiOjE3MzI4MzAzMjh9.zau0BbGSGwYkQSHpYtYUyT5ETYZ_d1SKX9NIdrUPQkw
+
 ### Crear
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
@@ -20,9 +24,23 @@ POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
-    "email": "user_demo@mail.com",
+    "email": "admin@mail.com",
     "password": "PassWord@123"
+}
+
+###
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "user@mail.com",
+  "password": "PassWord@123"
 }
 
 ### 
 GET http://localhost:3000/users
+Authorization: {{token_admin}}
+
+### 
+GET http://localhost:3000/users
+Authorization: {{token_user}}

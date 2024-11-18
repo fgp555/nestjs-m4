@@ -47,7 +47,17 @@ export class UserService {
       return await this.userRepository.find({
         skip: skip,
         take: limit,
-        order: { id: 'ASC' }, // Cambiar el campo si necesitas otro ordenamiento
+        order: { id: 'ASC' },
+        select: [
+          'id',
+          'name',
+          'email',
+          'phone',
+          'country',
+          'address',
+          'city',
+          'isAdmin',
+        ], // Seleccionar campos explícitos
       });
     } catch (error) {
       throw new BadRequestException('Error al obtener los usuarios');

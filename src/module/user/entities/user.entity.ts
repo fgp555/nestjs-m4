@@ -32,4 +32,7 @@ export class UserEntity {
     cascade: true,
   })
   orders: OrderEntity[];
+
+  @Column({ default: false, select: false })
+  isAdmin: boolean;
 }

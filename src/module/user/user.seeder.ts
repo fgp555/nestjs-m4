@@ -6,14 +6,15 @@ import { AuthService } from '../auth/auth.service';
 
 const userDemo = {
   id: 'ffffffff-0000-0000-0000-ffffffff0001',
-  name: 'User Demo',
-  email: 'user_demo@mail.com',
+  name: 'User Admin',
+  email: 'admin@mail.com',
   password: 'PassWord@123',
   confirmPassword: 'PassWord@123',
   phone: 123456789,
   country: 'Perú',
   address: 'HCM',
   city: 'city',
+  isAdmin: true,
 };
 
 @Injectable()

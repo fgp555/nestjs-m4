@@ -8,6 +8,7 @@ import { SigUpAuthDto } from './dto/signup-auth.dto';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { RolesEnum } from 'src/roles/enum/roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -54,6 +55,7 @@ export class AuthService {
       sub: foundEmail.id,
       id: foundEmail.id,
       email: foundEmail.email,
+      roles: [foundEmail.isAdmin ? RolesEnum.Admin : RolesEnum.User],
     };
 
     const token = this.jwtService.sign(userPayload);

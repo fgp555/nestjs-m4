@@ -1,7 +1,9 @@
 import {
   IsEmail,
+  IsEmpty,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -62,4 +64,8 @@ export class SigUpAuthDto {
   @MinLength(4, { message: 'La ciudad debe tener al menos 4 caracteres' })
   @MaxLength(20, { message: 'La ciudad no debe superar los 20 caracteres' })
   city: string;
+
+  @IsEmpty()
+  @IsOptional()
+  isAdmin?: boolean;
 }

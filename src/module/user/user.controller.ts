@@ -13,13 +13,18 @@ import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/roles/decorator/roles.decorator';
+import { RolesEnum } from 'src/roles/enum/roles.enum';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseGuards(AuthGuard)
+  @Roles(RolesEnum.Admin)
+  // @Roles(RolesEnum.User)
+  @UseGuards(AuthGuard, RolesGuard)
   findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 5,
