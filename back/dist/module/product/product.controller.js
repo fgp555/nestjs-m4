@@ -21,6 +21,7 @@ const auth_guard_1 = require("../auth/auth.guard");
 const roles_decorator_1 = require("../../roles/decorator/roles.decorator");
 const roles_enum_1 = require("../../roles/enum/roles.enum");
 const roles_guard_1 = require("../../roles/roles.guard");
+const swagger_1 = require("@nestjs/swagger");
 let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
@@ -49,7 +50,9 @@ let ProductController = class ProductController {
 };
 exports.ProductController = ProductController;
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Post)('seeder'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -57,7 +60,9 @@ __decorate([
 ], ProductController.prototype, "seeder", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto]),
@@ -65,6 +70,21 @@ __decorate([
 ], ProductController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, swagger_1.ApiQuery)({
+        name: 'limit',
+        required: false,
+        description: 'Number of elements per page',
+        schema: { default: 20 },
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        required: false,
+        description: 'Page number',
+        schema: { default: 1 },
+    }),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
@@ -72,6 +92,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0002',
+        },
+    }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
@@ -80,6 +110,17 @@ __decorate([
 ], ProductController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0002',
+        },
+    }),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
@@ -89,21 +130,37 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiExcludeEndpoint)(),
     (0, common_1.Delete)('all'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "removeAll", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0002',
+        },
+    }),
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "remove", null);
 exports.ProductController = ProductController = __decorate([
+    (0, swagger_1.ApiTags)('Product'),
     (0, common_1.Controller)('product'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], ProductController);

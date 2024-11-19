@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const signin_auth_dto_1 = require("./dto/signin-auth.dto");
 const signup_auth_dto_1 = require("./dto/signup-auth.dto");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -44,6 +45,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signin", null);
 exports.AuthController = AuthController = __decorate([
+    (0, swagger_1.ApiTags)('Auth'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);

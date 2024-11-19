@@ -20,6 +20,7 @@ const auth_guard_1 = require("../auth/auth.guard");
 const roles_guard_1 = require("../../roles/roles.guard");
 const roles_decorator_1 = require("../../roles/decorator/roles.decorator");
 const roles_enum_1 = require("../../roles/enum/roles.enum");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -40,8 +41,21 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, swagger_1.ApiQuery)({
+        name: 'limit',
+        required: false,
+        description: 'Number of elements per page',
+        schema: { default: 20 },
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        required: false,
+        description: 'Page number',
+        schema: { default: 1 },
+    }),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
@@ -49,16 +63,40 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'ffffffff-0000-0000-0000-ffffffff0001',
+        },
+    }),
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'ffffffff-0000-0000-0000-ffffffff0001',
+        },
+    }),
     (0, common_1.Patch)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -66,14 +104,27 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'ffffffff-0000-0000-0000-ffffffff0001',
+        },
+    }),
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "remove", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiTags)('Users'),
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);

@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", Array)
 ], UserEntity.prototype, "orders", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: false, select: false }),
+    (0, typeorm_1.Column)({ default: true, select: false }),
     __metadata("design:type", Boolean)
 ], UserEntity.prototype, "isAdmin", void 0);
 exports.UserEntity = UserEntity = __decorate([

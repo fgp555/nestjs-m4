@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateOrderDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class ProductDto {
@@ -17,6 +18,10 @@ class ProductDto {
 __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({
+        example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0001',
+        description: 'The id of the product',
+    }),
     __metadata("design:type", String)
 ], ProductDto.prototype, "id", void 0);
 class CreateOrderDto {
@@ -30,6 +35,10 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({
+        example: "ffffffff-0000-0000-0000-ffffffff0001",
+        description: 'The id of the user',
+    }),
     __metadata("design:type", String)
 ], CreateOrderDto.prototype, "userId", void 0);
 __decorate([

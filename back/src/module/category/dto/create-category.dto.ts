@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateCategoryDto {
@@ -6,5 +7,9 @@ export class CreateCategoryDto {
   id: string;
 
   @IsString()
+  @ApiProperty({
+    example: 'Laptops',
+    description: 'Name of the new category',
+  })
   name: string;
 }

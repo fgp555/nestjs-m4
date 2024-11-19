@@ -19,6 +19,10 @@ const platform_express_1 = require("@nestjs/platform-express");
 const product_service_1 = require("../product/product.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const ImageValidatorPipe_1 = require("./pipes/ImageValidatorPipe");
+const swagger_1 = require("@nestjs/swagger");
+const roles_enum_1 = require("../../roles/enum/roles.enum");
+const roles_decorator_1 = require("../../roles/decorator/roles.decorator");
+const roles_guard_1 = require("../../roles/roles.guard");
 let FileController = class FileController {
     constructor(fileService, productService) {
         this.fileService = fileService;
@@ -43,8 +47,31 @@ let FileController = class FileController {
 };
 exports.FileController = FileController;
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiParam)({
+        name: 'productId',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0001',
+        },
+    }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    (0, swagger_1.ApiOperation)({ summary: 'Upload a file' }),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        description: 'File to upload',
+        schema: {
+            type: 'object',
+            properties: {
+                file: { type: 'string', format: 'binary' },
+            },
+        },
+    }),
     (0, common_1.Post)('uploadImage/:productId'),
     __param(0, (0, common_1.Param)('productId', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
@@ -63,7 +90,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FileController.prototype, "updateImage", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, swagger_1.ApiOperation)({ summary: 'Upload a file' }),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        description: 'File to upload',
+        schema: {
+            type: 'object',
+            properties: {
+                file: { type: 'string', format: 'binary' },
+            },
+        },
+    }),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    (0, swagger_1.ApiExcludeEndpoint)(),
     (0, common_1.Post)('uploadBasic/:productId'),
     (0, common_1.UsePipes)(ImageValidatorPipe_1.ImageValidatorPipe),
     __param(0, (0, common_1.Param)('productId', common_1.ParseUUIDPipe)),
@@ -74,6 +116,7 @@ __decorate([
 ], FileController.prototype, "uploadBasic", null);
 __decorate([
     (0, common_1.Post)('test'),
+    (0, swagger_1.ApiExcludeEndpoint)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
@@ -81,6 +124,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], FileController.prototype, "test", null);
 exports.FileController = FileController = __decorate([
+    (0, swagger_1.ApiTags)('File'),
     (0, common_1.Controller)('file'),
     __metadata("design:paramtypes", [file_service_1.FileService,
         product_service_1.ProductService])

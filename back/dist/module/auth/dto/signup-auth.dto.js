@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SigUpAuthDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class SigUpAuthDto {
 }
@@ -19,11 +20,19 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'El nombre es requerido' }),
     (0, class_validator_1.MinLength)(3, { message: 'El nombre debe tener al menos 3 caracteres' }),
     (0, class_validator_1.MaxLength)(80, { message: 'El nombre no debe superar los 80 caracteres' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User name description',
+        example: 'User 1',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'El correo electrónico es requerido' }),
     (0, class_validator_1.IsEmail)({}, { message: 'El correo electrónico debe tener una estructura válida' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User email description',
+        example: 'User123s@gmail.com',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "email", void 0);
 __decorate([
@@ -34,6 +43,10 @@ __decorate([
     (0, class_validator_1.Matches)(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/, {
         message: 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales: !@#$%^&*',
     }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User password description',
+        example: 'User123s@',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "password", void 0);
 __decorate([
@@ -42,11 +55,19 @@ __decorate([
     (0, class_validator_1.ValidateIf)((dto) => dto.password === dto.confirmPassword, {
         message: 'Las contraseñas no coinciden',
     }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User password description',
+        example: 'User123s@',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "confirmPassword", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)({}, { message: 'El número de teléfono debe ser un número' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'El número de teléfono es requerido' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User phone description',
+        example: '123456789',
+    }),
     __metadata("design:type", Number)
 ], SigUpAuthDto.prototype, "phone", void 0);
 __decorate([
@@ -54,6 +75,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'El país es requerido' }),
     (0, class_validator_1.MinLength)(4, { message: 'El país debe tener al menos 4 caracteres' }),
     (0, class_validator_1.MaxLength)(20, { message: 'El país no debe superar los 20 caracteres' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User country description',
+        example: 'Perú',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "country", void 0);
 __decorate([
@@ -61,6 +86,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'La dirección es requerida' }),
     (0, class_validator_1.MinLength)(3, { message: 'La dirección debe tener al menos 3 caracteres' }),
     (0, class_validator_1.MaxLength)(80, { message: 'La dirección no debe superar los 80 caracteres' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User address description',
+        example: 'Calle 123',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "address", void 0);
 __decorate([
@@ -68,6 +97,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)({ message: 'La ciudad es requerida' }),
     (0, class_validator_1.MinLength)(4, { message: 'La ciudad debe tener al menos 4 caracteres' }),
     (0, class_validator_1.MaxLength)(20, { message: 'La ciudad no debe superar los 20 caracteres' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'User city description',
+        example: 'Juliaca',
+    }),
     __metadata("design:type", String)
 ], SigUpAuthDto.prototype, "city", void 0);
 __decorate([

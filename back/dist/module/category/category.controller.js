@@ -19,6 +19,10 @@ const create_category_dto_1 = require("./dto/create-category.dto");
 const update_category_dto_1 = require("./dto/update-category.dto");
 const category_seed_1 = require("./category.seed");
 const auth_guard_1 = require("../auth/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
+const roles_enum_1 = require("../../roles/enum/roles.enum");
+const roles_decorator_1 = require("../../roles/decorator/roles.decorator");
+const roles_guard_1 = require("../../roles/roles.guard");
 let CategoryController = class CategoryController {
     constructor(categoryService, categorySeed) {
         this.categoryService = categoryService;
@@ -46,14 +50,18 @@ let CategoryController = class CategoryController {
 exports.CategoryController = CategoryController;
 __decorate([
     (0, common_1.Post)('seeder'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "seeder", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_category_dto_1.CreateCategoryDto]),
@@ -66,6 +74,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "findAll", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'aaaaaaaa-0000-0000-0000-aaaaaaaa0004',
+        },
+    }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
@@ -73,8 +91,20 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "findOne", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'aaaaaaaa-0000-0000-0000-aaaaaaaa0004',
+        },
+    }),
     (0, common_1.Patch)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -82,14 +112,27 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "update", null);
 __decorate([
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        required: true,
+        description: 'The UUID of the product to update',
+        schema: {
+            type: 'string',
+            format: 'uuid',
+            example: 'aaaaaaaa-0000-0000-0000-aaaaaaaa0004',
+        },
+    }),
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, roles_decorator_1.Roles)(roles_enum_1.RolesEnum.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "remove", null);
 exports.CategoryController = CategoryController = __decorate([
+    (0, swagger_1.ApiTags)('Category'),
     (0, common_1.Controller)('category'),
     __metadata("design:paramtypes", [category_service_1.CategoryService,
         category_seed_1.CategorySeed])

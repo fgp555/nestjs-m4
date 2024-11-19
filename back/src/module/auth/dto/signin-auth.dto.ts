@@ -1,4 +1,7 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { SigUpAuthDto } from "./signup-auth.dto";
+import { SigUpAuthDto } from './signup-auth.dto';
+import { PickType } from '@nestjs/swagger';
 
-export class SigninAuthDto extends PartialType(SigUpAuthDto) {}
+export class SigninAuthDto extends PickType(SigUpAuthDto, [
+  'email',
+  'password',
+]) {}

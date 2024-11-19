@@ -33,6 +33,6 @@ export class UserEntity {
   })
   orders: OrderEntity[];
 
-  @Column({ default: false, select: false })
+  @Column({ default: true, select: false })
   isAdmin: boolean;
 }

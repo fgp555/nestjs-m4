@@ -17,7 +17,20 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductService } from '../product/product.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { ImageValidatorPipe } from './pipes/ImageValidatorPipe';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiExcludeEndpoint,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { RolesEnum } from 'src/roles/enum/roles.enum';
+import { Roles } from 'src/roles/decorator/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 
+@ApiTags('File')
 @Controller('file')
 export class FileController {
   constructor(
@@ -25,8 +38,33 @@ export class FileController {
     private readonly productService: ProductService,
   ) {}
 
-  @UseGuards(AuthGuard)
+  @ApiParam({
+    name: 'productId',
+    required: true,
+    description: 'The UUID of the product to update',
+    schema: {
+      type: 'string',
+      format: 'uuid',
+      example: 'bbbbbbbb-0000-0000-0000-bbbbbbbb0001',
+    },
+  })
+  @ApiBearerAuth()
+  @Roles(RolesEnum.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
+  // swagger input file in /api...
+  @ApiOperation({ summary: 'Upload a file' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'File to upload',
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  // swagger input file in /api.
   @Post('uploadImage/:productId')
   async updateImage(
     @Param('productId', ParseUUIDPipe) productId: string,
@@ -54,7 +92,24 @@ export class FileController {
     return updateImage;
   }
 
+  @ApiBearerAuth()
+  @Roles(RolesEnum.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  // swagger input file in /api...
+  @ApiOperation({ summary: 'Upload a file' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'File to upload',
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  // swagger input file in /api.
   @UseInterceptors(FileInterceptor('file'))
+  @ApiExcludeEndpoint()
   @Post('uploadBasic/:productId')
   @UsePipes(ImageValidatorPipe) // Aplicar el Pipe de validación
   async uploadBasic(
@@ -73,6 +128,7 @@ export class FileController {
   }
 
   @Post('test')
+  @ApiExcludeEndpoint()
   @UseInterceptors(FileInterceptor('file'))
   test(@UploadedFile() file123: Express.Multer.File) {
     return file123;
