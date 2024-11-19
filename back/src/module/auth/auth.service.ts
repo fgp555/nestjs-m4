@@ -6,7 +6,7 @@ import {
 import { SigninAuthDto } from './dto/signin-auth.dto';
 import { SigUpAuthDto } from './dto/signup-auth.dto';
 import { UserService } from '../user/user.service';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RolesEnum } from 'src/roles/enum/roles.enum';
 
