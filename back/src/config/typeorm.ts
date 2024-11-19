@@ -4,7 +4,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenv } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 
-dotenv({ path: '.env.prod' });
+dotenv({ path: '.env' });
 
 console.info('dropSchema: ', process.env.DROPSCHEMA);
 console.info('DB_TYPE: ', process.env.DB_TYPE);
