@@ -25,16 +25,16 @@ export class OrderController {
 
   @Post()
   @ApiBearerAuth()
-  @Roles(RolesEnum.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(RolesEnum.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto);
   }
 
   @Get()
   @ApiBearerAuth()
-  @Roles(RolesEnum.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(RolesEnum.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   findAll() {
     return this.orderService.findAll();
   }

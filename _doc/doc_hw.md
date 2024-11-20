@@ -26,6 +26,7 @@ npm i class-validator class-transformer
 
 # ========== 7 cloudinary ==========
 npm i -D @types/multer
+npm install --save-dev @types/multer
 npm i cloudinary buffer-to-stream
 # https://console.cloudinary.com/console/c-2e2dbe077bd7c496e46e39c51060de/media_library/search?q=&view_mode=mosaic
 

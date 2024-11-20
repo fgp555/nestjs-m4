@@ -1,0 +1,39 @@
+# docker-compose.yaml
+
+# https://hub.docker.com/u/fgp555
+# https://app.docker.com/settings/personal-access-tokens
+# https://github.com/fgp555/nestjs-m4/settings/secrets/actions
+
+# docker-compose.yml
+# docker-compose up
+# docker-compose down
+# docker-compose up --build
+# docker-compose down -v
+
+# version: '3.8'
+
+services:
+   nestjs_app:
+     build:
+       context: ./back # Cambia el contexto de construcción a la carpeta /back
+     image: nestjs_henry:latest # Nombre personalizado para la imagen
+     container_name: nestjs_container # Nombre personalizado para el contenedor
+     ports:
+       - "3000:3000"
+     env_file:
+       - ./back/.env # Asegúrate de que la ruta al archivo .env sea correcta
+     depends_on:
+       - postgres_host
+     volumes:
+       - ./back:/app # Mapea la carpeta /back al contenedor
+
+   postgres_host:
+     image: postgres
+     container_name: postgres_container # Nombre personalizado para el contenedor
+     volumes:
+       - pgdata:/var/lib/postgresql/data
+     env_file:
+       - ./back/.env # Asegúrate de que la ruta al archivo .env sea correcta
+
+volumes:
+  pgdata:

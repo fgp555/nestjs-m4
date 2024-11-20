@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { RolesEnum } from 'src/roles/enum/roles.enum';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -57,6 +58,8 @@ export class AuthService {
       email: foundEmail.email,
       roles: [foundEmail.isAdmin ? RolesEnum.Admin : RolesEnum.User],
     };
+
+    console.log("userPayload",userPayload)
 
     const token = this.jwtService.sign(userPayload);
 
