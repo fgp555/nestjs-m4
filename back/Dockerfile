@@ -1,4 +1,4 @@
-# back\Dockerfile
+# Dockerfile
 
 FROM node:20.14
 
